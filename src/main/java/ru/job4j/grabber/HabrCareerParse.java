@@ -29,11 +29,12 @@ public class HabrCareerParse implements DateTimeParser {
             Element vacancyDate = row.select(".vacancy-card__date").first();
             Element dt = vacancyDate.child(0);
             String t = dt.attr("datetime");
+            HabrCareerParse habrCareerParse = new HabrCareerParse();
+            LocalDateTime res = habrCareerParse.parse(t);
 
             String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
-            System.out.printf("%s %s %s%n", t, vacancyName, link);
-            HabrCareerParse habrCareerParse = new HabrCareerParse();
-            System.out.println(habrCareerParse.parse(t));
+            System.out.printf("%s %s %s%n", res, vacancyName, link);
+
         });
     }
 
