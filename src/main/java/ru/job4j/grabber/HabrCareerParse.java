@@ -5,10 +5,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
+import java.time.LocalDateTime;
 
-public class HabrCareerParse {
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+public class HabrCareerParse implements DateTimeParser {
     private static final String SOURCE_LINK = "https://career.habr.com";
     private static final String PREFIX = "/vacancies?page=";
     private static final String SUFFIX = "&q=Java%20developer&type=all";
@@ -30,6 +32,14 @@ public class HabrCareerParse {
 
             String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
             System.out.printf("%s %s %s%n", t, vacancyName, link);
+            HabrCareerParse habrCareerParse = new HabrCareerParse();
+            System.out.println(habrCareerParse.parse(t));
         });
+    }
+
+    @Override
+    public LocalDateTime parse(String parse) {
+        String p = parse.split("\\+")[0];
+        return LocalDateTime.parse(p, ISO_LOCAL_DATE_TIME);
     }
 }
