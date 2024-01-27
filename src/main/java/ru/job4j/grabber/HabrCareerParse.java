@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -36,6 +37,12 @@ public class HabrCareerParse implements DateTimeParser {
 
                 String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
                 System.out.printf("%s %s %s%n", res, vacancyName, link);
+
+                try {
+                    System.out.println(habrCareerParse.retrieveDescription(link));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
         }
     }
@@ -44,5 +51,12 @@ public class HabrCareerParse implements DateTimeParser {
     public LocalDateTime parse(String parse) {
         String p = parse.split("\\+")[0];
         return LocalDateTime.parse(p, ISO_LOCAL_DATE_TIME);
+    }
+
+    private String retrieveDescription(String link) throws IOException { /*linkToVacancy*/
+        Connection connection = Jsoup.connect(link);
+        Document document = connection.get();
+        Elements description = document.select(".vacancy-description__text");
+        return description.text();
     }
 }
