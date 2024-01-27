@@ -2,7 +2,7 @@ package ru.job4j.grabber;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-/** Объекты должны сравниваться по полям, однозначно определяющим уникальность обьекта */
+
 public class Post {
     private int id;
     private String title;
