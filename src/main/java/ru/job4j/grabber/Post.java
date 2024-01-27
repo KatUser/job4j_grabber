@@ -2,13 +2,13 @@ package ru.job4j.grabber;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 public class Post {
     private int id;
     private String title;
     private String link;
     private String description;
     private LocalDateTime created;
+
 
     @Override
     public boolean equals(Object o) {
@@ -19,12 +19,13 @@ public class Post {
             return false;
         }
         Post post = (Post) o;
-        return id == post.id;
+        return id == post.id
+                && Objects.equals(link, post.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, link);
     }
 
     @Override
