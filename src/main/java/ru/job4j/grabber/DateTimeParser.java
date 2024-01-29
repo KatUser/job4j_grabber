@@ -2,6 +2,8 @@ package ru.job4j.grabber;
 
 import java.time.LocalDateTime;
 
-public interface DateTimeParser {
-    LocalDateTime parse(String parse);
+public class DateTimeParser {
+    LocalDateTime parseDate(String parse) {
+        return null;
+    }
 }
