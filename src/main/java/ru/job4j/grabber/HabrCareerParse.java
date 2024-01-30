@@ -26,6 +26,7 @@ public class HabrCareerParse extends DateTimeParser implements Parse {
 
     public static void main(String[] args) throws IOException {
         HabrCareerParse habrCareerParse = new HabrCareerParse(new DateTimeParser());
+        habrCareerParse.list(SOURCE_LINK);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class HabrCareerParse extends DateTimeParser implements Parse {
 
     @Override
     public List<Post> list(String link) throws IOException {
-        int pageNumber = 5;
+        int pageNumber = 2;
         int vacancyNumber = 0;
         List<Post> postList = new ArrayList<>();
         for (int i = 1; i <= pageNumber; i++) {
