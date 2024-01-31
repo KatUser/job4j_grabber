@@ -13,7 +13,7 @@ import java.util.List;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-public class HabrCareerParse extends DateTimeParser implements Parse {
+public class HabrCareerParse implements Parse {
     private static final String SOURCE_LINK = "https://career.habr.com";
     private static final String PREFIX = "/vacancies?page=";
     private static final String SUFFIX = "&q=Java%20developer&type=all";
@@ -29,7 +29,6 @@ public class HabrCareerParse extends DateTimeParser implements Parse {
         habrCareerParse.list(SOURCE_LINK);
     }
 
-    @Override
     public LocalDateTime parseDate(String parse) {
         String p = parse.split("\\+")[0];
         return LocalDateTime.parse(p, ISO_LOCAL_DATE_TIME);
