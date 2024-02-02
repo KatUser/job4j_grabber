@@ -1,8 +1,8 @@
-package ru.job4j.grabber;
+package ru.job4j.grabber.utils;
 
 import java.time.LocalDateTime;
 
-public class DateTimeParser {
+public class HabrCareerDateTimeParser {
     LocalDateTime parseDate(String parse) {
         return null;
     }

@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,15 +18,15 @@ public class HabrCareerParse implements Parse {
     private static final String SOURCE_LINK = "https://career.habr.com";
     private static final String PREFIX = "/vacancies?page=";
     private static final String SUFFIX = "&q=Java%20developer&type=all";
-    private final DateTimeParser dateTimeParser;
+    private final HabrCareerDateTimeParser habrCareerDateTimeParser;
 
-    public HabrCareerParse(DateTimeParser dateTimeParser) {
-        this.dateTimeParser = dateTimeParser;
+    public HabrCareerParse(HabrCareerDateTimeParser habrCareerDateTimeParser) {
+        this.habrCareerDateTimeParser = habrCareerDateTimeParser;
     }
 
 
     public static void main(String[] args) throws IOException {
-        HabrCareerParse habrCareerParse = new HabrCareerParse(new DateTimeParser());
+        HabrCareerParse habrCareerParse = new HabrCareerParse(new HabrCareerDateTimeParser());
         System.out.println(habrCareerParse.list(SOURCE_LINK));
     }
 
@@ -60,7 +61,7 @@ public class HabrCareerParse implements Parse {
                 Element dateTime = vacancyDate.child(0);
                 String time = dateTime.attr("datetime");
 
-                HabrCareerParse habrCareerParse = new HabrCareerParse(dateTimeParser);
+                HabrCareerParse habrCareerParse = new HabrCareerParse(habrCareerDateTimeParser);
                 LocalDateTime localDateTime = habrCareerParse.parseDate(time);
 
                 String  vacancyLink = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
