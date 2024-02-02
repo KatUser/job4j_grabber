@@ -5,6 +5,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 
 import java.io.*;
+import java.util.List;
 import java.util.Properties;
 
 import static org.quartz.JobBuilder.newJob;
@@ -16,6 +17,7 @@ public class Grabber implements Grab {
     private final Store store;
     private final Scheduler scheduler;
     private final int time;
+    private final static String HABR_LINK = "https://career.habr.com";
 
     public Grabber(Parse parse, Store store, Scheduler scheduler, int time) {
         this.parse = parse;
@@ -48,9 +50,14 @@ public class Grabber implements Grab {
             JobDataMap map = context.getJobDetail().getJobDataMap();
             Store store = (Store) map.get("store");
             Parse parse = (Parse) map.get("parse");
-            /*   impl logic должен парсить страницу и сохранять список всех вакансий в бд? */
+            try {
+                List<Post> postList = parse.list(HABR_LINK);
+                postList.forEach(store::save);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
+     }
 
     public static void main(String[] args) throws Exception {
         var config = new Properties();
