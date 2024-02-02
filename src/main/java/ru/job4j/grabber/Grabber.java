@@ -55,7 +55,7 @@ public class Grabber implements Grab {
     public static void main(String[] args) throws Exception {
         var config = new Properties();
         try (InputStream input = Grabber.class.getClassLoader()
-                .getResourceAsStream("app.properties")) {
+                .getResourceAsStream("application.properties")) {
             config.load(input);
         }
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
