@@ -40,16 +40,14 @@ public class PsqlStore implements Store {
     @Override
     public void save(Post post) {
         try (PreparedStatement preparedStatement = connection
-                .prepareStatement("INSERT INTO post (id, name, text, link, created)"
-                        + "VALUES (?, ?, ?, ?, ?)"
+                .prepareStatement("INSERT INTO post (name, text, link, created)"
+                        + "VALUES (?, ?, ?, ?)"
                         + "ON CONFLICT (link)"
-                        + "DO UPDATE SET id = EXCLUDED.id, name = EXCLUDED.name, "
-                        + "text = EXCLUDED.text, link = EXCLUDED.link, created = EXCLUDED.created")) {
-            preparedStatement.setInt(1, post.getId());
-            preparedStatement.setString(2, post.getTitle());
-            preparedStatement.setString(3, post.getDescription());
-            preparedStatement.setString(4, post.getLink());
-            preparedStatement.setTimestamp(5, Timestamp
+                        + "DO NOTHING")) {
+            preparedStatement.setString(1, post.getTitle());
+            preparedStatement.setString(2, post.getDescription());
+            preparedStatement.setString(3, post.getLink());
+            preparedStatement.setTimestamp(4, Timestamp
                     .valueOf(new Timestamp(System.currentTimeMillis())
                             .toLocalDateTime().withNano(0)));
             preparedStatement.execute();
