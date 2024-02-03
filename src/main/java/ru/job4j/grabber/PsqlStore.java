@@ -13,7 +13,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 public class PsqlStore implements Store {
 
-    private Connection connection;
+    private final Connection connection;
 
     public PsqlStore(Properties properties) {
         try {
@@ -40,13 +40,13 @@ public class PsqlStore implements Store {
     @Override
     public void save(Post post) {
         try (PreparedStatement preparedStatement = connection
-                .prepareStatement("INSERT INTO post (name, text, link, created)"
+                .prepareStatement("INSERT INTO post (name, link, text, created)"
                         + "VALUES (?, ?, ?, ?)"
                         + "ON CONFLICT (link)"
                         + "DO NOTHING")) {
             preparedStatement.setString(1, post.getTitle());
-            preparedStatement.setString(2, post.getDescription());
-            preparedStatement.setString(3, post.getLink());
+            preparedStatement.setString(2, post.getLink());
+            preparedStatement.setString(3, post.getDescription());
             preparedStatement.setTimestamp(4, Timestamp
                     .valueOf(new Timestamp(System.currentTimeMillis())
                             .toLocalDateTime().withNano(0)));
@@ -75,8 +75,8 @@ public class PsqlStore implements Store {
     private Post createNewPost(ResultSet resultSet) throws SQLException {
             return new Post(resultSet.getInt("id"),
                     resultSet.getString("name"),
-                    resultSet.getString("text"),
                     resultSet.getString("link"),
+                    resultSet.getString("text"),
                     resultSet.getTimestamp("created").toLocalDateTime());
         }
 
@@ -107,8 +107,8 @@ public class PsqlStore implements Store {
 
     public static void main(String[] args) throws Exception {
         try (PsqlStore psqlStore = new PsqlStore(getProperties())) {
-            psqlStore.save(new Post(1, "job", "http:url", "description", LocalDateTime.parse(LocalDateTime.now().withNano(0).format(ISO_LOCAL_DATE_TIME))));
-            psqlStore.save(new Post(2, "job2", "http:url2", "description2", LocalDateTime.parse(LocalDateTime.now().withNano(0).format(ISO_LOCAL_DATE_TIME))));
+            psqlStore.save(new Post(1, "job", "description", "http:url",  LocalDateTime.parse(LocalDateTime.now().withNano(0).format(ISO_LOCAL_DATE_TIME))));
+            psqlStore.save(new Post(2, "job2", "description2", "http:url2", LocalDateTime.parse(LocalDateTime.now().withNano(0).format(ISO_LOCAL_DATE_TIME))));
             System.out.println(psqlStore.findById(1));
             System.out.println(psqlStore.getAll());
         }
