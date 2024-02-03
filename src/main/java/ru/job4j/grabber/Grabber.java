@@ -1,7 +1,6 @@
 package ru.job4j.grabber;
 
 import org.quartz.*;
-import org.quartz.impl.StdScheduler;
 import org.quartz.impl.StdSchedulerFactory;
 import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 
@@ -18,9 +17,6 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 public class Grabber implements Grab {
     private final static String HABR_LINK = "https://career.habr.com";
-
-    public Grabber(Parse parse, Store store, Scheduler scheduler, int time) {
-    }
 
     public Grabber() {
 
