@@ -3,11 +3,10 @@
 -- название компании для каждого человека.
 
 select p.name as "Имя человека",
-c.name as "Название компании"
-    from person as p
-    inner join company as c on
-    p.company_id = c.id
-    where c.id < 5;
+c.name as "Название компании" from person as p
+    inner join company as c
+    on p.company_id = c.id
+    where c.id != 5;
 
 
 -- 2. Необходимо выбрать название компании с максимальным количеством человек
